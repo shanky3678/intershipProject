@@ -36,16 +36,6 @@ Widget appBarWidget(context) {
         ),
         color: Color(0xFF323232),
       ),
-      IconButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AppSignIn()),
-          );
-        },
-        icon: Icon(FontAwesomeIcons.user),
-        color: Color(0xFF323232),
-      ),
     ],
   );
 }

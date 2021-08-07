@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pink_flamingo_app/common_widget/AppBarWidget.dart';
 import 'package:pink_flamingo_app/common_widget/DrawerWidget.dart';
+import 'package:pink_flamingo_app/components/AppSignIn.dart';
 import 'package:pink_flamingo_app/screens/HomeScreen.dart';
 
 void main() => runApp(MyApp());
@@ -35,13 +36,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageNewState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: appBarWidget(context),
-        drawer: DrawerWidget(),
-        body: HomeScreen(),
-      ),
+    return Scaffold(
+      body: AppSignIn(),
     );
   }
 }

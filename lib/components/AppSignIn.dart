@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pink_flamingo_app/components/AppSingUp.dart';
+import 'package:pink_flamingo_app/screens/HomeScreen.dart';
 
 class AppSignIn extends StatefulWidget {
   @override
@@ -22,20 +23,6 @@ class _AppSignInState extends State<AppSignIn> {
         color: Colors.white70,
         child: Column(
           children: <Widget>[
-            Flexible(
-              flex: 1,
-              child: InkWell(
-                child: Container(
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Icon(Icons.close),
-                  ),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
             Flexible(
               flex: 5,
               child: Column(
@@ -130,7 +117,12 @@ class _AppSignInState extends State<AppSignIn> {
                     width: double.infinity,
                     child: RaisedButton(
                       padding: EdgeInsets.all(17.0),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()));
+                      },
                       child: Text(
                         "Sign In",
                         style: TextStyle(

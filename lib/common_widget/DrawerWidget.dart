@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pink_flamingo_app/main.dart';
 import 'package:pink_flamingo_app/components/AppSignIn.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -18,16 +17,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             _createDrawerHeader(),
+            _createDrawerItem(icon: Icons.home, text: 'Home', onTap: () {}),
             _createDrawerItem(
-                icon: Icons.home,
-                text: 'Home',
-                onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MyHomePage()),
-                    )),
+                icon: FontAwesomeIcons.user, text: 'Categories', onTap: () {}),
             _createDrawerItem(
                 icon: FontAwesomeIcons.user,
-                text: 'Sign In',
+                text: 'New in',
                 onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => AppSignIn()),
