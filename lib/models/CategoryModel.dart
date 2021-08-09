@@ -16,15 +16,4 @@ class CategoryModel {
     discription = json['productDiscription'];
     price = json['productPrice'];
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['slug'] = this.slug;
-    data['productImages'] = this.imageUrl;
-    data['productDiscription'] = this.discription;
-    data['productPrice'] = this.price;
-    data['productId'] = this.productId;
-    return data;
-  }
 }

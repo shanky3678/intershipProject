@@ -28,6 +28,7 @@ dependencies:
   http: ^0.12.0+4
   font_awesome_flutter: 8.8.1
   mysql1: ^0.19.2
+  get_it: ^7.2.0
 
 
 
@@ -54,17 +55,10 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
-    - assets/images/ic_add_cart.png
-    - assets/images/ic_discount.png
-    - assets/images/promotion_one.png
-    - assets/images/promotion_two.png
-    - assets/images/promotion__one.png
-    - assets/images/promotion_three.png
+
     - assets/images/pink.png
-    - assets/images/ic_category_image.png
-    - assets/images/empty_shopping_cart_image.png
-    - assets/images/empty_shopping_cart.png
-    - assets/images/empty_wish_list.png
+    - assets/images/success.png
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -1,8 +1,9 @@
-import 'package:flutter/foundation.dart';
+class UserDetails {
+  int _userId = -1;
 
-// class userDetails {
-//   final String userId;
-//   userDetails(this.userId);
+  setUserId(int id) {
+    _userId = id;
+  }
 
-//   userDetails.from
-// }
+  int get userId => _userId;
+}

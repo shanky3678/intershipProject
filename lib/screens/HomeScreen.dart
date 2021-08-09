@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pink_flamingo_app/common_widget/AppBarWidget.dart';
 import 'package:pink_flamingo_app/common_widget/DrawerWidget.dart';
 import 'package:pink_flamingo_app/components/CategorySlider.dart';
+import 'package:pink_flamingo_app/components/NewDeals.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: DefaultTabController(
-        length: 3,
+        length: 2,
         initialIndex: 0,
         child: Scaffold(
           appBar: appBarWidget(context),
@@ -35,11 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       text: 'Home',
                     ),
                     Tab(
-                      text: 'Categories',
+                      text: 'New Deals',
                     ),
-                    Tab(
-                      text: 'New in',
-                    )
                   ], // list of tabs
                 ),
               ),
@@ -58,11 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Container(
                       color: Colors.white24,
-                      child: CategoryPage(slug: 'products'),
-                    ),
-                    Container(
-                      color: Colors.white24,
-                      child: CategoryPage(slug: 'products'),
+                      child: NewDealsView(slug: 'new-deals'),
                     ),
                   ],
                 ),

@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pink_flamingo_app/common_widget/AppBarWidget.dart';
-import 'package:pink_flamingo_app/common_widget/DrawerWidget.dart';
 import 'package:pink_flamingo_app/components/AppSignIn.dart';
-import 'package:pink_flamingo_app/screens/HomeScreen.dart';
+import 'package:pink_flamingo_app/models/OrderView.dart';
+import 'package:pink_flamingo_app/locator.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  setUp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

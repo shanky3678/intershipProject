@@ -1,30 +1,30 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:pink_flamingo_app/models/CategoryModel.dart';
+import 'package:pink_flamingo_app/common_widget/NewDealDisplay.dart';
 import 'package:pink_flamingo_app/common_widget/CircularProgress.dart';
-import 'package:pink_flamingo_app/common_widget/GridTilesCategory.dart';
+import 'package:pink_flamingo_app/models/NewDeals.dart';
 import 'package:pink_flamingo_app/utils/Urls.dart';
 import 'package:http/http.dart';
 
-List<CategoryModel> categories = [];
+List<NewDealsModel> newDeals = [];
 
-class CategoryPage extends StatefulWidget {
+class NewDealsView extends StatefulWidget {
   String slug;
 
-  CategoryPage({
+  NewDealsView({
     Key key,
     this.slug,
   }) : super(key: key);
 
   @override
-  _CategoryPageState createState() => _CategoryPageState();
+  _NewDealsViewState createState() => _NewDealsViewState();
 }
 
-class _CategoryPageState extends State<CategoryPage> {
+class _NewDealsViewState extends State<NewDealsView> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getCategoryList(widget.slug),
+      future: getNewDeals(widget.slug),
       builder: (context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -48,38 +48,32 @@ Widget createListView(
   BuildContext context,
   AsyncSnapshot snapshot,
 ) {
-  List<CategoryModel> values = snapshot.data;
-  return GridView.count(
-    crossAxisCount: 2,
-    padding: EdgeInsets.all(1.0),
-    childAspectRatio: 1.125,
-    children: List<Widget>.generate(values.length, (index) {
-      return Center(
-        child: GridTile(
-            child: GridTilesCategory(
-          productId: values[index].productId,
-          name: values[index].name,
-          imageUrl: values[index].imageUrl,
-          price: values[index].price,
+  List<NewDealsModel> values = snapshot.data;
+  return SingleChildScrollView(
+    child: Column(
+      children: List<Widget>.generate(values.length, (index) {
+        return NewDealDisplay(
+          title: values[index].title,
           discription: values[index].discription,
-        )),
-      );
-    }),
+        );
+      }),
+    ),
   );
 }
 
 //TODO: get list of values here
-Future<List<CategoryModel>> getCategoryList(String slug) async {
-  categories.clear();
+Future<List<NewDealsModel>> getNewDeals(String slug) async {
+  newDeals.clear();
   Response response;
   response = await get(Urls.ROOT_URL + slug);
+  print(response.body);
   int statusCode = response.statusCode;
   final body = json.decode(response.body);
   print(body);
   if (statusCode == 200) {
-    categories = (body as List).map((i) => CategoryModel.fromJson(i)).toList();
-    return categories;
+    newDeals = (body as List).map((i) => NewDealsModel.fromJson(i)).toList();
+    return newDeals;
   } else {
-    return categories = [];
+    return newDeals = [];
   }
 }

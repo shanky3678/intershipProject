@@ -7,6 +7,7 @@ class GridTilesProducts extends StatelessWidget {
   String slug;
   String price;
   String discription;
+  int productId;
 
   GridTilesProducts({
     Key key,
@@ -14,6 +15,7 @@ class GridTilesProducts extends StatelessWidget {
     @required this.imageUrl,
     @required this.slug,
     @required this.price,
+    @required this.productId,
     this.discription,
   }) : super(key: key);
 
@@ -25,6 +27,7 @@ class GridTilesProducts extends StatelessWidget {
           context,
           MaterialPageRoute(
               builder: (context) => ProductDetailScreen(
+                    productId: productId,
                     imageUrl: imageUrl,
                     name: name,
                     price: price,

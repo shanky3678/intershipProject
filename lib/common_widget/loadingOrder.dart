@@ -11,6 +11,7 @@ class _LoadingOrderState extends State<LoadingOrder> {
     return Container(
       child: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [CircularProgressIndicator(), Text("Ordering....")],
         ),
       ),

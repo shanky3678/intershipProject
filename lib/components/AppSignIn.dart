@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pink_flamingo_app/components/AppSingUp.dart';
+import 'package:pink_flamingo_app/locator.dart';
+import 'package:pink_flamingo_app/models/userData.dart';
 import 'package:pink_flamingo_app/screens/HomeScreen.dart';
+import 'package:pink_flamingo_app/services/ApiService.dart';
 
 class AppSignIn extends StatefulWidget {
   @override
@@ -9,6 +12,16 @@ class AppSignIn extends StatefulWidget {
 }
 
 class _AppSignInState extends State<AppSignIn> {
+  bool isBusy = false;
+
+  setBusy(bool busy) {
+    isBusy = busy;
+    setState(() {});
+  }
+
+  TextEditingController _email = TextEditingController();
+  TextEditingController _password = TextEditingController();
+  UserDetails _details = locator<UserDetails>();
   @override
   Widget build(BuildContext context) {
     String defaultFontFamily = 'Roboto-Light.ttf';
@@ -38,6 +51,7 @@ class _AppSignInState extends State<AppSignIn> {
                     height: 15,
                   ),
                   TextField(
+                    controller: _email,
                     showCursor: true,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -49,7 +63,7 @@ class _AppSignInState extends State<AppSignIn> {
                       ),
                       filled: true,
                       prefixIcon: Icon(
-                        Icons.phone,
+                        Icons.mail,
                         color: Color(0xFF666666),
                         size: defaultIconSize,
                       ),
@@ -58,13 +72,14 @@ class _AppSignInState extends State<AppSignIn> {
                           color: Color(0xFF666666),
                           fontFamily: defaultFontFamily,
                           fontSize: defaultFontSize),
-                      hintText: "Phone Number",
+                      hintText: "Email",
                     ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   TextField(
+                    controller: _password,
                     showCursor: true,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -117,11 +132,31 @@ class _AppSignInState extends State<AppSignIn> {
                     width: double.infinity,
                     child: RaisedButton(
                       padding: EdgeInsets.all(17.0),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomeScreen()));
+                      onPressed: () async {
+                        setBusy(true);
+                        setState(() {});
+                        if (_email.text.isNotEmpty &&
+                            _password.text.isNotEmpty) {
+                          var result = await login('login', {
+                            "email": _email.text,
+                            "password": _password.text
+                          });
+                          if (result.ok) {
+                            setBusy(false);
+                            print(result.data[0]["id"].toString());
+                            _details.setUserId(result.data[0]["id"]);
+                            print(
+                                "UserLogged in ${_details.userId.toString()}");
+
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeScreen()));
+                          } else {
+                            setBusy(false);
+                          }
+                        }
                       },
                       child: Text(
                         "Sign In",

@@ -6,14 +6,16 @@ class GridTilesCategory extends StatelessWidget {
   String imageUrl;
   String discription;
   String price;
+  int productId;
 
-  GridTilesCategory({
-    Key key,
-    @required this.name,
-    @required this.imageUrl,
-    this.discription,
-    @required this.price,
-  }) : super(key: key);
+  GridTilesCategory(
+      {Key key,
+      @required this.name,
+      @required this.imageUrl,
+      this.discription,
+      @required this.price,
+      @required this.productId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class GridTilesCategory extends StatelessWidget {
           context,
           MaterialPageRoute(
               builder: (context) => ProductDetailScreen(
+                  productId: productId,
                   discription: discription,
                   name: name,
                   price: price,
@@ -34,6 +37,7 @@ class GridTilesCategory extends StatelessWidget {
           elevation: 0,
           child: Center(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Image.network(
                   imageUrl,
@@ -41,10 +45,11 @@ class GridTilesCategory extends StatelessWidget {
                   height: 100,
                 ),
                 Text(name,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Color(0xFF000000),
                         fontFamily: 'Roboto-Light.ttf',
-                        fontSize: 12)),
+                        fontSize: 18)),
               ],
             ),
           )),

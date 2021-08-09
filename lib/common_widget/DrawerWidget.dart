@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pink_flamingo_app/components/AboutUs.dart';
 import 'package:pink_flamingo_app/components/AppSignIn.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pink_flamingo_app/models/OrderView.dart';
+import 'package:pink_flamingo_app/screens/HomeScreen.dart';
 
 class DrawerWidget extends StatefulWidget {
   @override
@@ -17,18 +20,43 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             _createDrawerHeader(),
-            _createDrawerItem(icon: Icons.home, text: 'Home', onTap: () {}),
-            _createDrawerItem(
-                icon: FontAwesomeIcons.user, text: 'Categories', onTap: () {}),
+            // _createDrawerItem(
+            //     icon: Icons.home,
+            //     text: 'Home',
+            //     onTap: () {
+            //       Navigator.pop(context);
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => HomeScreen()),
+            //       );
+            //     }),
             _createDrawerItem(
                 icon: FontAwesomeIcons.user,
-                text: 'New in',
-                onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AppSignIn()),
-                    )),
+                text: 'View Orders',
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => OrderView(slug: "get-orders")),
+                  );
+                }),
             _createDrawerItem(
-                icon: Icons.call, text: 'Contact Us', onTap: () {})
+                icon: Icons.shop,
+                text: 'About us',
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AboutUs()));
+                }),
+            _createDrawerItem(
+                icon: Icons.logout,
+                text: 'Sign out',
+                onTap: () {
+                  Navigator.popUntil(context, (route) => false);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AppSignIn()));
+                })
           ],
         ),
       ),
@@ -51,15 +79,6 @@ Widget _createDrawerHeader() {
             ),
           ),
         ),
-        Positioned(
-            bottom: 12.0,
-            left: 16.0,
-            child: Text(
-                "Our newest collection 'IRIDESCENCE' features pieces made from the most beautiful ginger-silk blend and brocade fabrics. All our pieces are fun, modern and very very stylish.",
-                style: TextStyle(
-                    color: Color(0xFF545454),
-                    fontSize: 10.0,
-                    fontWeight: FontWeight.w500))),
       ]));
 }
 

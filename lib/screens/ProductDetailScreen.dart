@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:pink_flamingo_app/common_widget/AppBarWidget.dart';
 import 'package:pink_flamingo_app/common_widget/loadingOrder.dart';
-import 'package:pink_flamingo_app/screens/HomeScreen.dart';
+import 'package:pink_flamingo_app/locator.dart';
+import 'package:pink_flamingo_app/models/userData.dart';
+import 'package:pink_flamingo_app/screens/OrderPlaced.dart';
+
+import 'package:pink_flamingo_app/services/ApiService.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   String name;
   String discription;
   String imageUrl;
   String price;
+  int productId;
 
   ProductDetailScreen(
       {Key key,
       @required this.name,
+      @required this.productId,
       this.discription,
       @required this.imageUrl,
       @required this.price})
@@ -23,6 +29,7 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   bool isBusy = false;
+  UserDetails _details = locator<UserDetails>();
 
   void setBusy(bool busy) {
     isBusy = busy;
@@ -33,7 +40,54 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xFFfafafa),
-        appBar: appBarWidget(context),
+        appBar: appBarWidget(context,
+            title: "Details",
+            color: Colors.pinkAccent,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RaisedButton(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  onPressed: () async {
+                    setBusy(true);
+                    setState(() {});
+                    var result = await createOrder("add-order", {
+                      "name": widget.name,
+                      "userId": _details.userId,
+                      "productId": widget.productId,
+                    });
+                    if (result.data['status'] == 200) {
+                      setBusy(false);
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OrderPlacedPlace()));
+                    } else {
+                      final snackBar =
+                          SnackBar(content: Text("Something went wrong."));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                    setBusy(false);
+                    setState(() {});
+                  },
+                  color: Colors.white,
+                  textColor: Colors.white,
+                  child: Container(
+                    padding:
+                        EdgeInsets.only(left: 5, right: 5, top: 15, bottom: 15),
+                    child: Text("Buy Now".toUpperCase(),
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.pinkAccent)),
+                  ),
+                ),
+              ),
+            ]),
         body: isBusy
             ? LoadingOrder()
             : SingleChildScrollView(
@@ -126,86 +180,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     SizedBox(
                       height: 10,
                     ),
-                    RaisedButton(
-                      elevation: 0,
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              bottomRight: Radius.circular(10)),
-                          side: BorderSide(color: Color(0xFFff665e))),
-                      onPressed: () async {
-                        setBusy(true);
-                        setState(() {});
-                        await Future.delayed(Duration(seconds: 5));
-                        // Navigator.popUntil(context, (route) => false);
-
-                        setBusy(false);
-                        setState(() {});
-                      },
-                      color: Colors.pinkAccent,
-                      textColor: Colors.white,
-                      child: Container(
-                        padding: EdgeInsets.only(
-                            left: 5, right: 5, top: 15, bottom: 15),
-                        child: Text("available at shops".toUpperCase(),
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.white)),
-                      ),
-                    ),
                   ],
                 ),
               ));
-  }
-}
-
-class BottomNavBar extends StatefulWidget {
-  bool isbusy = false;
-  BottomNavBar(this.isbusy);
-  @override
-  _BottomNavBarState createState() => _BottomNavBarState();
-}
-
-class _BottomNavBarState extends State<BottomNavBar> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 20, right: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          RaisedButton(
-            elevation: 0,
-            shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.only(
-                    topRight: Radius.circular(10),
-                    bottomRight: Radius.circular(10)),
-                side: BorderSide(color: Color(0xFFff665e))),
-            onPressed: () async {
-              widget.isbusy = true;
-              setState(() {});
-              await Future.delayed(Duration(seconds: 5));
-              // Navigator.popUntil(context, (route) => false);
-
-              widget.isbusy = true;
-              setState(() {});
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()));
-            },
-            color: Colors.pinkAccent,
-            textColor: Colors.white,
-            child: Container(
-              padding: EdgeInsets.only(left: 5, right: 5, top: 15, bottom: 15),
-              child: Text("available at shops".toUpperCase(),
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white)),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
